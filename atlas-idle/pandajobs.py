@@ -69,3 +69,9 @@ def get_jobs():
         idle[queues[panda_q]] = n
 
     return idle
+
+if __name__ == '__main__':
+    logging.basicConfig()
+    s = get_jobs()
+    print(s)
+
