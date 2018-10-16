@@ -6,8 +6,6 @@
 # William Strecker-Kellogg <willsk@bnl.gov>
 # John Hover  <jhover@bnl.gov>
 # *****************************************************************************
-#
-#
 #  get_jobs() -> {'group_atlas.prod.production': 0, 
 #                 'group_atlas.prod.mp': 4144, 
 #                 'group_atlas.analysis.amc': 6, 
@@ -16,24 +14,17 @@
 #                 'group_atlas.analysis.long': 19599, 
 #                 'group_atlas.analysis.short': 16626
 #                 }
-
-
+#
 import requests
 import cPickle
 import logging
 import libfactory
+from pprint import pprint
 from libfactory.htcondorlib import HTCondorSchedd
 from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, Count
 
-class IdleOnlyFilter(AnalyzerFilter):
-        def filter(self, job):
-            jobstatus = int(job['jobstatus'])
-            return jobstatus == 1
-
-log = logging.getLogger()
-
 # Queues to watch, map of PANDA Name -> Condor Group name
-groups = [
+GROUPS = [
     'group_atlas.prod.xl',
     'group_atlas.prod.mp',
     'group_atlas.prod.test',
@@ -43,18 +34,34 @@ groups = [
     'group_atlas.analysis.amc',
     ]
 
+class IdleOnlyFilter(AnalyzerFilter):
+    def filter(self, job):
+        jobstatus = int(job['jobstatus'])
+        return jobstatus == 1
+
+class AtlasOnlyFilter(AnalyzerFilter):
+    def filter(self, job):
+        return job['accountinggroup'] in GROUPS
+    
+log = logging.getLogger()
+
+
 def get_jobs():      
     sd = HTCondorSchedd()
     attlist = ['accountinggroup','jobstatus','xcount']
-    
     cq = sd.condor_q(attribute_l = attlist)
-    myinfostatus = StatusInfo(cq)
-    myfilter = IdleOnlyFilter()  
-    myinfostatus = myinfostatus.filter(myfilter)
-    myinfostatus = myinfostatus.indexby(IndexByKey('accountinggroup'))   
-    myinfostatus = myinfostatus.process(Count())
-    return myinfostatus.getraw()
+    si = StatusInfo(cq)
+    idlefilter = IdleOnlyFilter()  
+    atlasfilter = AtlasOnlyFilter()
+    si = si.filter(idlefilter)
+    si = si.filter(atlasfilter)
+    si = si.indexby(IndexByKey('accountinggroup'))   
+    si = si.process(Count())
+    return si.getraw()
 
+
+if __name__ == '__main__':
+    pprint(get_jobs)
 
 
 
