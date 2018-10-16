@@ -58,7 +58,7 @@ def get_jobs():
 
 
 if __name__ == '__main__':
-    pprint(get_jobs)
+    pprint(get_jobs())
 
 
 
