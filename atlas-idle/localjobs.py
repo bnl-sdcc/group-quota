@@ -15,9 +15,6 @@
 #                 'group_atlas.analysis.short': 16626
 #                 }
 #
-import requests
-import cPickle
-import logging
 import libfactory
 from pprint import pprint
 from libfactory.htcondorlib import HTCondorSchedd
