@@ -41,7 +41,8 @@ class IdleOnlyFilter(AnalyzerFilter):
 
 class AtlasOnlyFilter(AnalyzerFilter):
     def filter(self, job):
-        return job['accountinggroup'] in GROUPS
+        ag = job['accountinggroup']
+        return ag.contains('group_atlas')
     
 def get_jobs():      
     sd = HTCondorSchedd()
