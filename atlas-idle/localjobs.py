@@ -43,9 +43,6 @@ class AtlasOnlyFilter(AnalyzerFilter):
     def filter(self, job):
         return job['accountinggroup'] in GROUPS
     
-log = logging.getLogger()
-
-
 def get_jobs():      
     sd = HTCondorSchedd()
     attlist = ['accountinggroup','jobstatus','xcount']
