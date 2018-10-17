@@ -47,7 +47,7 @@ class AtlasOnlyFilter(AnalyzerFilter):
 def get_jobs():      
     sd = HTCondorSchedd()
     attlist = ['accountinggroup','jobstatus','xcount']
-    cq = sd.condor_q(attribute_l = attlist)
+    cq = sd.condor_q(attribute_l = attlist, globalquery=True)
     si = StatusInfo(cq)
     idlefilter = IdleOnlyFilter()  
     atlasfilter = AtlasOnlyFilter()
