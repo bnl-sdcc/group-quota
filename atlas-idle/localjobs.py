@@ -15,8 +15,8 @@
 #                 'group_atlas.analysis.short': 16626
 #                 }
 #
-import sys
-sys.path.append('/usr/lib64/python2.7/site-packages')
+#import sys
+#sys.path.append('/usr/lib64/python2.7/site-packages')
 
 import libfactory
 from pprint import pprint
