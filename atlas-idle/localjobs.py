@@ -35,6 +35,14 @@ GROUPS = [
     'group_atlas.analysis.amc',
     ]
 
+class StripUserMap(AnalyzerMap):
+    def map(self, job):
+        agv = job['accountinggroup']
+        if len(agv) > 3:
+            agv = '.'.join(agv.split('.')[:-1])
+            job['accountinggroup'] = agv
+        return job
+        
 class IdleOnlyFilter(AnalyzerFilter):
     def filter(self, job):
         jobstatus = int(job['jobstatus'])
@@ -51,8 +59,10 @@ def get_jobs():
     cq = sd.condor_q(attribute_l = attlist, globalquery=True)
     si = StatusInfo(cq)
     idlefilter = IdleOnlyFilter()  
+    stripusermap = StripUserMap()
     atlasfilter = AtlasOnlyFilter()
     si = si.filter(idlefilter)
+    si = si.map(stripusermap)
     si = si.filter(atlasfilter)
     si = si.indexby(IndexByKey('accountinggroup'))   
     si = si.process(Count())
