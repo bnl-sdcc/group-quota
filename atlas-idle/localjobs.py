@@ -37,10 +37,13 @@ GROUPS = [
 
 class StripUserMap(AnalyzerMap):
     def map(self, job):
-        agv = job['accountinggroup']
-        if len(agv) > 3:
-            agv = '.'.join(agv.split('.')[:-1])
-            job['accountinggroup'] = agv
+        try:
+            agv = job['accountinggroup']
+            if len(agv) > 3:
+                agv = '.'.join(agv.split('.')[:-1])
+                job['accountinggroup'] = agv
+        except:
+            pass
         return job
         
 class IdleOnlyFilter(AnalyzerFilter):
