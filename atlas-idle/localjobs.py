@@ -1,3 +1,4 @@
+#!/bin/env python
 # *****************************************************************************
 # Get jobs from the local Condor pool for appropriate groups (non-grid)
 # All modules must have the get_jobs() method that returns a mapping of
