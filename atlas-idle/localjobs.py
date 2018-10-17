@@ -22,7 +22,7 @@
 import libfactory
 from pprint import pprint
 from libfactory.htcondorlib import HTCondorSchedd
-from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, Count
+from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, AnalyzerMap, Count
 
 # Queues to watch, map of PANDA Name -> Condor Group name
 GROUPS = [
