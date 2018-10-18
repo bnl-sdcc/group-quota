@@ -20,6 +20,7 @@
 #sys.path.append('/usr/lib64/python2.7/site-packages')
 
 import libfactory
+import logging
 from pprint import pprint
 from libfactory.htcondorlib import HTCondorSchedd
 from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, AnalyzerMap, Count
@@ -86,6 +87,7 @@ def get_jobs():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     pprint(get_jobs())
 
 
