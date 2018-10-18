@@ -1,5 +1,0 @@
-*.pyc
-groupquota.sublime-*
-/dist/
-/*.egg-info
-/build/

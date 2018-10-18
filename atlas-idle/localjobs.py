@@ -48,13 +48,26 @@ class StripUserMap(AnalyzerMap):
         
 class IdleOnlyFilter(AnalyzerFilter):
     def filter(self, job):
-        jobstatus = int(job['jobstatus'])
-        return jobstatus == 1
+        isidle = False
+        try:
+            jobstatus = int(job['jobstatus'])
+            if jobstatus == 1:
+                isidle = True
+        except:
+            pass
+        return isidle
+
 
 class AtlasOnlyFilter(AnalyzerFilter):
     def filter(self, job):
-        ag = job['accountinggroup']
-        return 'group_atlas' in ag
+        matches = False
+        try:
+            ag = job['accountinggroup']
+            matches = 'group_atlas' in ag
+        except:
+            pass
+        return matches
+        
     
 def get_jobs():      
     sd = HTCondorSchedd()
