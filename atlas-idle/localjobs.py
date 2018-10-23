@@ -25,6 +25,8 @@ from pprint import pprint
 from libfactory.htcondorlib import HTCondorSchedd
 from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, AnalyzerMap, Count
 
+from .. import config as gqconfig
+
 # Queues to watch, map of PANDA Name -> Condor Group name
 GROUPS = [
     'group_atlas.prod.xl',
@@ -70,10 +72,14 @@ class AtlasOnlyFilter(AnalyzerFilter):
         return matches
         
     
-def get_jobs():      
-    sd = HTCondorSchedd()
+def get_jobs():
+    
+    cm_host = gqconfig.condor_cm.split(':')[0]
+    cm_port = gqconfig.condor_cm.split(':')[1]     
+    pool = HTCondorPool(hostname=cm_host, port=cm_port)
+    #sd = HTCondorSchedd()
     attlist = ['accountinggroup','jobstatus','xcount']
-    cq = sd.condor_q(attribute_l = attlist, globalquery=True)
+    cq = pool.condor_q(attribute_l = attlist)
     si = StatusInfo(cq)
     idlefilter = IdleOnlyFilter()  
     stripusermap = StripUserMap()
