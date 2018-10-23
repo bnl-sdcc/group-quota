@@ -22,7 +22,7 @@
 import libfactory
 import logging
 from pprint import pprint
-from libfactory.htcondorlib import HTCondorSchedd
+from libfactory.htcondorlib import HTCondorSchedd, HTCondorPool
 from libfactory.info import StatusInfo, IndexByKey, AnalyzerFilter, AnalyzerMap, Count
 
 from gq import config as gqconfig
